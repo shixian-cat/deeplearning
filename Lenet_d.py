@@ -12,7 +12,7 @@ class LeNet(nn.Module):
         super(LeNet, self).__init__()
         self.conv1 = nn.Conv2d(3, 6, 5)
         self.conv2 = nn.Conv2d(6, 16, 5)
-        self.fc1 = nn.Linear(16 * 4 * 4, 120)
+        self.fc1 = nn.Linear(16 * 5 * 5, 120)
         self.fc2 = nn.Linear(120, 84)
         self.fc3 = nn.Linear(84, 10)
 
@@ -83,10 +83,35 @@ classes = ('plane', 'car', 'bird', 'cat',
            'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
 
 OPT=torch.optim.SGD(lenet.parameters(), lr=0.001)
-for epoch in range(50):
-    train(lenet,trainloader,OPT,epoch)
-    print()
-    test(lenet,testloader)
-    print()
+# for epoch in range(50):
+#     train(lenet,trainloader,OPT,epoch)
+#     print()
+#     test(lenet,testloader)
+#     print()
 
-    
+model_path = './pth/lenet.pth'
+torch.save(lenet.state_dict(), model_path)
+
+d_iter=iter(testloader)
+im,lab=next(d_iter)
+
+def imageshow(im,text=None):
+    im=im.numpy().transpose((1,2,0))
+    mean=np.array([0.5, 0.5, 0.5])
+    std=np.array([0.5, 0.5, 0.5])
+    im=std*im+mean
+    im=np.clip(im,0,1)
+    plt.imshow(im)
+    if text is not None:
+        plt.title(text)
+
+imageshow(torchvision.utils.make_grid(im[:4]))
+print('GroundTruth: ', ' '.join('%5s' % classes[lab[j]] for j in range(4)))
+
+lenet_cached=LeNet().to(device=device)
+lenet_cached.load_state_dict(torch.load(model_path, weights_only=False))
+
+op=lenet_cached(im.to(device))
+
+_,pred=torch.max(op,1)
+print('Predicted: ', ' '.join('%5s' % classes[pred[j]] for j in range(4)))

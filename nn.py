@@ -23,7 +23,6 @@ class MyNeuralNetwork(nn.Module):
         x = self.hidden_to_output_layer(x)
         return x
 
-    mynet = MyNeuralNetwork().to(device)
+mynet = MyNeuralNetwork().to(device)
     print(mynet.input_to_hidden_layer.weight)
 
-    

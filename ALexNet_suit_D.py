@@ -140,4 +140,7 @@ opt=optim.SGD(model.parameters(),lr=0.0001)
 
 model=finetune_model(model,loss_f,opt,epo=10)
 
+model_path = './pth/alexnet.pth'
+torch.save(model.state_dict(), model_path)
+
 visualize_model(model)

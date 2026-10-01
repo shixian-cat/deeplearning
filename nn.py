@@ -24,5 +24,5 @@ class MyNeuralNetwork(nn.Module):
         return x
 
 mynet = MyNeuralNetwork().to(device)
-    print(mynet.input_to_hidden_layer.weight)
+print(mynet.input_to_hidden_layer.weight)
 

@@ -144,3 +144,4 @@ model_path = './pth/alexnet.pth'
 torch.save(model.state_dict(), model_path)
 
 visualize_model(model)
+plt.show()

@@ -21,5 +21,18 @@ for label in ['pos', 'neg']:
             with open(os.path.join(f'./aclImdb/train/{label}/', fname), encoding="utf8") as f:
                 review_list += [f.read()]
                 label_list += [label]
-                
+
 print ('Number of reviews :', len(review_list))
+
+
+review_list =[review.lower() for review in review_list]
+review_list = [''.join([letter for letter in review if letter not in punctuation]) for review in review_list]
+
+reviews_blob =''.join(review_list)
+review_words = reviews_blob.split()
+count_words = Counter(review_words)
+
+total_review_words = len(review_words)
+sorted_review_words = count_words.most_common(total_review_words)
+
+print(sorted_review_words[:10])

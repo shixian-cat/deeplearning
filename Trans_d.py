@@ -199,19 +199,19 @@ def val(model,validation_data):
     return loss_total/(len(validation_data)-1)
 
 min_val_loss=float('inf')
-epo=5
+epo=50
 best_model_path="./pth/best_transformer_model.pt"
 
-# for e in range(1,epo+1):
-#     epoch_start_time=time.time()
-#     trn()
-#     val_loss=val(model,validation_data)
-#     print(f"第 {e} 轮验证集损失: {val_loss:.4f}, 时间: {time.time()-epoch_start_time:.2f} 秒")
-#     if val_loss<min_val_loss:
-#         min_val_loss=val_loss
-#         torch.save(model.state_dict(),best_model_path)
-#         print(f"保存最佳模型到 {best_model_path}")
-#     sch.step()
+for e in range(1,epo+1):
+    epoch_start_time=time.time()
+    trn()
+    val_loss=val(model,validation_data)
+    print(f"第 {e} 轮验证集损失: {val_loss:.4f}, 时间: {time.time()-epoch_start_time:.2f} 秒")
+    if val_loss<min_val_loss:
+        min_val_loss=val_loss
+        torch.save(model.state_dict(),best_model_path)
+        print(f"保存最佳模型到 {best_model_path}")
+    sch.step()
 
 
 
